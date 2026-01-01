@@ -2,7 +2,7 @@ name: Main Workflow
 on: push
 env:
   github_username: yossi-cohen19
-  github_password: ${{ secrets.GITHUB_TOKEN)
+  github_password: ${{ secrets.GITHUB_TOKEN }}
 jobs:
   Build:
     runs-on: ubuntu-latest

@@ -16,5 +16,22 @@ jobs:
         with: 
           name: code
           path: .
-          include-hidden-files: true
+          include-hidden-files: true  
+          
+  linting:
+   runs-on: ubuntu-latest
+   needs: [build]
+   steps:
+     - name: download code
+       uses: actions/download-artifact@v4
+       with:
+         name: code
+         path: .
+     - name: Run linting
+       uses: super-linter/superlinter/slim@v7
+       env:
+         DEFAULT_BRANCH: main
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    
           

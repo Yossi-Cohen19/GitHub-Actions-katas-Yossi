@@ -1,7 +1,10 @@
 name: Main Workflow
 on: push
+env:
+  github_username: yossi-cohen19
+  github_password: ${{ secrets.GITHUB_TOKEN)
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
     container: gradle:6-jdk11
     steps:
@@ -20,7 +23,7 @@ jobs:
           
   linting:
    runs-on: ubuntu-latest
-   needs: [build]
+   needs: [Build]
    steps:
      - name: download code
        uses: actions/download-artifact@v4
@@ -34,5 +37,20 @@ jobs:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          DISABLE_ERRORS: true 
         
-    
+  DOCKER_IMAGE:
+      runs-on: ubuntu-latest
+      needs: [Build]
+      permissions: 
+        packages: write
+      steps:
+        - name: Download code
+          uses: actions/download-artifact@v4
+          with:
+            name: code
+            path: .
+        - name: build docker
+          run: bash ci/build-docker.sh
+        - name: push docker
+          run: bash ci/push-docker.sh
+      
           

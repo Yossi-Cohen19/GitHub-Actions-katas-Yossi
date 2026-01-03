@@ -14,7 +14,7 @@ on:
         value: ${{ jobs.summarize.outputs.summary }}
       summary_text: 
         description: 'human-readable summary text'
-        value: $ {{ jobs.summarize.output.summary_text }}
+        value: ${{ jobs.summarize.outputs.summary_text }}
         
 
 jobs:
@@ -27,11 +27,13 @@ jobs:
       steps:
         - name: clone down repo
           uses: actions/checkout@v4
+          
         - name: call summary composite actions
           id: call-summary
           uses: ./.github/actions/summary-action
           with:
             numbers: ${{ inputs.numbers }}
+            
         - name: format summary (create human-readable text)
           id: format
           shell: bash

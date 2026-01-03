@@ -1,0 +1,22 @@
+name: use-reuseable
+on: [workflow_dispatch]
+
+jobs:
+
+  call-reuseable:
+    uses: ./.github/workflows/reuseable.yml
+    with:
+      numbers: '[5, 15, 25, 35, 45]'
+
+  show_summary:
+    runs-on: ubuntu-latest
+    needs: [call-reuseable]
+    steps:
+      - name: print reuseable workflow output
+        run: |
+            echo "Reusable summary (JSON): ${{ needs.call-reusable.outputs.summary }}"
+            echo "Reusable summary (text): ${{ needs.call-reusable.outputs.summary_text }}"
+
+            
+        
+  
